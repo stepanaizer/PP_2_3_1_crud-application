@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -15,28 +17,24 @@ public class UserDaoHibernateImpl implements UserDao {
     private EntityManager em;
 
     @Override
-    @Transactional
-    public void save(User user) {
+    public void addUser(User user) {
         em.persist(user);
     }
 
     @Override
-    public User findById(Long id) {
+    public User findUserById(Long id) {
         return em.find(User.class, id);
     }
 
     @Override
-    @Transactional
-    public void deleteById(Long id) {
-        User user = findById(id);
-        if (user != null) {
-            em.remove(user);
-        }
+    public void deleteUserById(Long id) {
+        em.createQuery("delete from User user where user.id=:id")
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Override
-    @Transactional
-    public void update(User user) {
+    public void updateUser(User user) {
         em.merge(user);
     }
 

@@ -21,7 +21,7 @@ public class UsersController {
 
     @GetMapping("/{id}")
     public String printUser(@PathVariable("id") Long id, ModelMap model) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findUserById(id));
         return "users/user";
     }
 
@@ -32,25 +32,25 @@ public class UsersController {
 
     @PostMapping()
     public String addUser(@ModelAttribute("user") User user) {
-        userService.save(user);
+        userService.addUser(user);
         return "redirect:/users";
     }
 
     @GetMapping("/{id}/edit")
     public String editUser(ModelMap model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findUserById(id));
         return "users/edit";
     }
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") User user) {
-        userService.update(user);
+        userService.updateUserInfo(user);
         return "redirect:/users";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteById(id);
+        userService.deleteUserById(id);
         return "redirect:/users";
     }
 }
